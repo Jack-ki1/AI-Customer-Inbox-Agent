@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
@@ -13,7 +15,8 @@ from .schemas import ChatRequest, ChatResponse
 
 app = FastAPI(title="AI Customer Inbox Agent", version="1.0.0")
 
-STATIC_DIR = __file__.rsplit("/", 2)[0] + "/static"
+# Fix path construction using pathlib
+STATIC_DIR = Path(__file__).resolve().parent.parent / "static"
 app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 _agent: InboxAgent | None = None
@@ -41,7 +44,7 @@ def get_agent() -> InboxAgent:
 
 @app.get("/")
 def demo_ui():
-    return FileResponse(STATIC_DIR + "/index.html")
+    return FileResponse(STATIC_DIR / "index.html")
 
 
 @app.get("/health")
