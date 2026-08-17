@@ -39,13 +39,15 @@ project1_AI_customer_inbox_agent/
 ```
 
 ## Project Architecture
-<!-- ![Project Architecture Diagram](path/to/your/architecture_diagram.png) -->
-Place an image here that shows the system architecture with components like:
+
+Images here that show the system with components like:
 - User interface (web/WhatsApp/email)
 - Message processing pipeline
 - LLM integration
 - Knowledge base
 - Lead notification system
+
+ ![web view](nexus1.png) 
 
 ## Why is it useful?
 
