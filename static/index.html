@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>AI Customer Inbox Agent - Demo</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, sans-serif; background:#f4f5f7; margin:0; display:flex; justify-content:center; }
+  .wrap { max-width: 480px; width:100%; padding: 24px; }
+  h1 { font-size: 18px; color:#1a1a2e; }
+  .sub { color:#666; font-size:13px; margin-bottom:16px; }
+  #log { background:white; border-radius:10px; padding:14px; height:420px; overflow-y:auto; box-shadow:0 1px 4px rgba(0,0,0,.08); }
+  .msg { margin:8px 0; padding:8px 12px; border-radius:10px; max-width:80%; font-size:14px; line-height:1.4; }
+  .user { background:#0b5cff; color:white; margin-left:auto; text-align:right; }
+  .bot { background:#eef1f6; color:#1a1a2e; }
+  .meta { font-size:11px; color:#999; margin-top:2px; }
+  form { display:flex; gap:8px; margin-top:12px; }
+  input { flex:1; padding:10px 12px; border-radius:8px; border:1px solid #ddd; font-size:14px; }
+  button { padding:10px 16px; border:none; background:#0b5cff; color:white; border-radius:8px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Nexus CCTV & Security - AI Inbox Agent</h1>
+  <div class="sub">Demo web chat. Try: "Do you install CCTV in Rongai?" or "I need a quote for 4 cameras"</div>
+  <div id="log"></div>
+  <form id="f">
+    <input id="input" placeholder="Type a message..." autocomplete="off" />
+    <button type="submit">Send</button>
+  </form>
+</div>
+<script>
+  const log = document.getElementById('log');
+  const form = document.getElementById('f');
+  const input = document.getElementById('input');
+  const customerRef = 'demo-' + Math.random().toString(36).slice(2, 8);
+
+  function addMsg(text, cls, meta) {
+    const div = document.createElement('div');
+    div.className = 'msg ' + cls;
+    div.textContent = text;
+    if (meta) {
+      const m = document.createElement('div');
+      m.className = 'meta';
+      m.textContent = meta;
+      div.appendChild(m);
+    }
+    log.appendChild(div);
+    log.scrollTop = log.scrollHeight;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const text = input.value.trim();
+    if (!text) return;
+    addMsg(text, 'user');
+    input.value = '';
+    try {
+      const res = await fetch('/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customer_ref: customerRef, message: text, channel: 'web' })
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.detail || 'error');
+      addMsg(data.reply, 'bot', 'intent: ' + data.intent + (data.lead_captured ? ' | lead captured ✅' : ''));
+    } catch (err) {
+      addMsg('Error: ' + err.message, 'bot');
+    }
+  });
+</script>
+</body>
+</html>

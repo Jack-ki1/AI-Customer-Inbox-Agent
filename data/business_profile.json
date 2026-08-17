@@ -1,0 +1,15 @@
+{
+  "name": "Nexus CCTV & Security Ltd",
+  "hours": "Monday - Saturday, 8:00 AM - 6:00 PM. Closed Sundays and public holidays.",
+  "location": "Westlands, Nairobi. We also serve Rongai, Karen, Kilimani, Thika and the greater Nairobi metro area.",
+  "phone": "+254 700 000 000",
+  "email": "info@nexuscctv.example.com",
+  "services": [
+    "CCTV supply, installation and configuration (residential and commercial)",
+    "Electric fence and perimeter alarm installation",
+    "Access control systems (biometric, card, PIN)",
+    "Remote monitoring setup (view cameras from your phone)",
+    "Maintenance contracts and callout support"
+  ],
+  "booking_note": "Site visits can be booked for any weekday. We usually need 24 hours notice for a free site assessment."
+}
